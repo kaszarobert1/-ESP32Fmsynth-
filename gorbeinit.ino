@@ -129,6 +129,7 @@ void tvagorbegenerator (uint16_t ar, uint16_t al, uint16_t d1l, uint16_t d1r, ui
 
 
 void maxreleaseset() {
+ //Op Envelope release Time 
   maxrelease = op1ar + op1d1r + op1d2r;
   maxrelease1 = op2ar + op2d1r + op2d2r;
   if (maxrelease<maxrelease1) {maxrelease= maxrelease1;}
@@ -140,7 +141,7 @@ void maxreleaseset() {
   if (maxrelease<maxrelease4) {maxrelease= maxrelease4;}
   maxrelease5 = op6ar + op6d1r + op6d2r;
   if (maxrelease<maxrelease5) {maxrelease= maxrelease5;}
-  maxrelease=maxrelease<<2;
+  //Op Envelope Maximum Time
   maxtime = maxrelease + op1rr+1;
   maxtime1 = maxrelease + op2rr+1;
    if (maxtime<maxtime1) {maxtime= maxtime1;}
@@ -152,7 +153,9 @@ void maxreleaseset() {
    if (maxtime<maxtime4) {maxtime= maxtime4;}
   maxtime5 = maxrelease + op6rr+1;
    if (maxtime<maxtime5) {maxtime= maxtime5;}
+   //4X release correction!!!
    maxtime=maxtime<<2;
+   maxrelease=maxrelease<<2;
 }
 
 /*

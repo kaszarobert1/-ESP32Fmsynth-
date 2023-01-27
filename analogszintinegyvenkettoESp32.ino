@@ -3,7 +3,7 @@
 // Instantiate eeprom objects with parameter/argument names and sizes
 // Eeprom objektumok példányosítása paraméter/argumentum nevekkel és méretekkel
 EEPROMClass  MIDIsave("eeprom0");
-
+#define EEPROMsize  600   //  kel még ez a def!
 
 #include <driver/i2s.h>
 #define I2S_PORT I2S_NUM_0

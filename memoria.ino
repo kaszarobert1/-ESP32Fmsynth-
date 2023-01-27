@@ -150,6 +150,9 @@ void save() {
   
   Serial.println("SAVE END") ;
   Serial.println("ADRESS END:" + String(kezdocim)) ;
+  if(kezdocim >= EEPROMsize)
+    Serial.println("Kicsi a lefoglalt EEPROM tomb merete: " + String(kezdocim));
+  
   parameterstest();
 }
 
@@ -307,4 +310,7 @@ void load(byte loadprog) {
 
   proginit();
   parameterstest();
+  if(kezdocim >= EEPROMsize)
+    Serial.println("Kicsi a lefoglalt EEPROM tomb merete: " + String(kezdocim));
+  
 }

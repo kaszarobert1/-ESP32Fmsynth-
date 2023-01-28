@@ -169,9 +169,20 @@ void parametereqright() {
   lastlastbuffer2 = lastbuffer2;
   lastbuffer2 = bufferbe;
 }
+void limitcount() {
+  limitplus =expgains128[limitgain];
+  limitminus = -limitplus;
+
+}
+
+void limitcount2() {
+  limitplus2 = expgains128[limitgain2];
+  limitminus2 = -limitplus2;
+
+}
 
 //LIMITER
-void limiter() {
+void limiterleft() {
   if (bufferbe > limitplus) {
     bufferbe = limitplus;
   }
@@ -179,7 +190,15 @@ void limiter() {
     bufferbe = limitminus;
   }
 }
-
+//LIMITER
+void limiterright() {
+  if (bufferbe > limitplus2) {
+    bufferbe = limitplus2;
+  }
+  if (bufferbe < limitminus2) {
+    bufferbe = limitminus2;
+  }
+}
 /*
   void reverbold(){
     //Delay:

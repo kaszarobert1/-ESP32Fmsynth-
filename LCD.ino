@@ -587,7 +587,7 @@ void menukiir() {
       op4generatorfreq = op4generatorfreqorig;
       op5generatorfreq = op5generatorfreqorig;
       op6generatorfreq = op1generatorfreqorig;
-      
+
       break;
     case 13:
 
@@ -820,7 +820,7 @@ void menukiir() {
           break;
       }
       switch (alg2) {
-          case 0:
+        case 0:
           lcdfirstline = "                ";
           break;
         case 1:
@@ -1059,15 +1059,15 @@ void menukiir() {
           eqkiszamol2();
         }
       }
-      Qp = Q*25;
-      Q2p = Q2*25;
+      Qp = Q * 25;
+      Q2p = Q2 * 25;
       break;
     case 29:
       //PAREQ PARAMETERS FREQ------------------
       float* pareqparameter2;
       switch (opmenuoldal) {
-        case 1:f0=f0orig; pareqparameter2 = &f0; break;
-        case 2:f02=f02orig; pareqparameter2 = &f02; break;
+        case 1: f0 = f0orig; pareqparameter2 = &f0; break;
+        case 2: f02 = f02orig; pareqparameter2 = &f02; break;
         case 3:  break;
         case 4:  break;
         case 5:  break;
@@ -1425,26 +1425,44 @@ void menukiir() {
       }
       break;
     case 42:
+      byte* limitp;
+      switch (opmenuoldal) {
+        case 1: limitp = &limitgain; break;
+        case 2: limitp = &limitgain2; break;
+        case 3:  break;
+        case 4:  break;
+        case 5:  break;
+        case 6:  break;
+        case 7: break;
 
+      }
       if (inc) {
-        if (limitplus < 65535) {
-          limitplus += 1024;
+        if (*limitp < 127) {
+          *limitp += 1;
         } else {
-          limitplus = -1;
+          *limitp = 0;
         }
-        limitminus = -limitplus;
+
         inc = false;
       }
       if (dec) {
-        if (limitplus > -1) {
-          limitplus -= 1024;
+        if (*limitp > 0) {
+          *limitp -= 1;
         } else {
-          limitplus = 65535;
+          *limitp = 127;
         }
-        limitminus = -limitplus;
+
         dec = false;
       }
-      lcdkiir("LIMITGAIN       ", lcdprint6(limitplus) + "     (65535)");
+      if (opmenuoldal == 1 ) {
+        limitcount();
+        lcdkiir("LIMITGAIN LEFT  ", lcdprint6(limitplus) + "     (65535)");
+      }
+      if (opmenuoldal == 2 ) {
+        limitcount2();
+        lcdkiir("LIMITGAIN RIGHT  ", lcdprint6(limitplus2) + "     (65535)");
+      }
+
       break;
     case 43:
 
@@ -1494,7 +1512,7 @@ void menukiir() {
 
     case 49:
       if (inc) {
-        if (saveprog < 10) {
+        if (saveprog < 9) {
           saveprog++;
         } else {
           saveprog = 1;
@@ -1502,10 +1520,10 @@ void menukiir() {
         inc = false;
       }
       if (dec) {
-        if (saveprog > 0) {
+        if (saveprog > 1) {
           saveprog--;
         } else {
-          saveprog = 10;
+          saveprog = 9;
         }
         dec = false;
       }

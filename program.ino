@@ -33,17 +33,20 @@ void proginit() {
   Q2 = Q2p / 25.0;
   f0orig = pareqfreq0  * 25 + 1;
   f02orig = pareqfreq1  * 25 + 1;
- 
-  limitplus = limitgain << 10;
-  limitminus = -limitplus;
+  limitcount();
+  limitcount2();
+
+
   oplevel = oplevel / 2 + 1;
   alg = algorithm % 7;
   alg2 = algorithm / 7;
   reverblevel = reverblevel + 1;
   picheglevel = pichvolume << 9;
   menukiir();
-  stepprogchanged = 1;
+  eqkiszamol();
+  eqkiszamol2();
   menuoldal = 1;
+  stepprogchanged = 1;
   initprog();
 }
 
@@ -78,7 +81,7 @@ void program0() {
   algorithm = 27;
   frame = 6;
   level = 15;
-  oplevel=1;
+  oplevel = 1;
   feedbacklevel = 73;
   pichkezd = 10;
   pichrr = 40;
@@ -1161,7 +1164,7 @@ void program9() {
   fixfreqstep = 40;
   frame = 2;
   level = 18;
-  oplevel=2;
+  oplevel = 2;
   lfo2freq = 1;
   modulation = 0;
   op1notefixed = true;
@@ -1301,7 +1304,7 @@ void program10() {
   algorithm = 41;
   frame = 6;
   level = 15;
-  oplevel=1;
+  oplevel = 1;
   feedbacklevel = 38;
   pichkezd = 10;
   pichrr = 40;

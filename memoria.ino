@@ -5,8 +5,10 @@
 
 
 void save() {
-  //saveprog
-  int kezdocim = 0;
+  EEPROM.begin(EEPROMsize);
+  saveprog--;
+  int kezdocim = saveprog * 150;
+  Serial.println("SAVE ADRESS BEGIN:" + String(kezdocim)) ;
   //1
   Serial.println("SAVE BEGIN") ;
   MIDIsave.put(kezdocim++, op1waveform);
@@ -121,23 +123,26 @@ void save() {
   MIDIsave.put(kezdocim++, op4notefixed );
   MIDIsave.put(kezdocim++, op5notefixed );
   MIDIsave.put(kezdocim++, op6notefixed );
-  //107
+  //106
   MIDIsave.put(kezdocim++, frame );
   MIDIsave.put(kezdocim++, szorzo );
   MIDIsave.put(kezdocim++, algorithm );
   MIDIsave.put(kezdocim++, level);
+  MIDIsave.put(kezdocim++, feedbacklevel);
   MIDIsave.put(kezdocim++, mastertune);
   MIDIsave.put(kezdocim++, Qp);
   MIDIsave.put(kezdocim++, Q2p);
   MIDIsave.put(kezdocim++, pareqfreq0 );
   MIDIsave.put(kezdocim++, pareqfreq1);
-  MIDIsave.put(kezdocim++, limitgain >> 10 );
+  MIDIsave.put(kezdocim++, limitgain);
+  MIDIsave.put(kezdocim++, limitgain2);
   MIDIsave.put(kezdocim++, (oplevel - 1) * 2);
   MIDIsave.put(kezdocim++, pichvolume );//!!!
   MIDIsave.put(kezdocim++, lfo2freq);
   MIDIsave.put(kezdocim++, lfo2delaytime);
   MIDIsave.put(kezdocim++, lfo2volume );
   MIDIsave.put(kezdocim++, modulation);
+  //123
   MIDIsave.put(kezdocim++, reverblevel - 1 );
   MIDIsave.put(kezdocim++, reverbdiffusion);
   MIDIsave.put(kezdocim++, delaytime );
@@ -146,18 +151,32 @@ void save() {
   MIDIsave.put(kezdocim++, chorusfreq);
   MIDIsave.put(kezdocim++, choruslevel);
   MIDIsave.put(kezdocim++, eqvalue);
+  MIDIsave.put(kezdocim++, parametereqlefton);
+  MIDIsave.put(kezdocim++, parametereqrighton);
+  MIDIsave.put(kezdocim++, parametereqlefton);
+  MIDIsave.put(kezdocim++, limiterrighton);
+  MIDIsave.put(kezdocim++, limiterlefton);
+  MIDIsave.put(kezdocim++, limiterrighton);
+  MIDIsave.put(kezdocim++, delaylowpasseqlefton);
+  MIDIsave.put(kezdocim++, delaylowpasseqlefton);
+  MIDIsave.put(kezdocim++, highpassrighteqon);
+  MIDIsave.put(kezdocim++, highpasslefteqon);
+  //140
 
-  
+ MIDIsave.commit();
   Serial.println("SAVE END") ;
   Serial.println("ADRESS END:" + String(kezdocim)) ;
-  if(kezdocim >= EEPROMsize)
+  if (kezdocim >= EEPROMsize)
     Serial.println("Kicsi a lefoglalt EEPROM tomb merete: " + String(kezdocim));
-  
+
   parameterstest();
 }
 
 void load(byte loadprog) {
-  int kezdocim = 0;
+  loadprog--;
+  EEPROM.begin(EEPROMsize);
+  int kezdocim = loadprog * 150;
+  Serial.println("LOAD ADRESS BEGIN:" + String(kezdocim)) ;
   //1
   Serial.println("Load 1.") ;
   MIDIsave.get(kezdocim++, op1waveform);
@@ -279,24 +298,27 @@ void load(byte loadprog) {
   MIDIsave.get(kezdocim++, op5notefixed);
   MIDIsave.get(kezdocim++, op6notefixed);
   //107
-  
+
   Serial.println("Load 107.") ;
   MIDIsave.get(kezdocim++, frame);
   MIDIsave.get(kezdocim++, szorzo);
   MIDIsave.get(kezdocim++, algorithm);
   MIDIsave.get(kezdocim++, level);
+  MIDIsave.get(kezdocim++, feedbacklevel);
   MIDIsave.get(kezdocim++, mastertune);
   MIDIsave.get(kezdocim++, Qp);
   MIDIsave.get(kezdocim++, Q2p);
   MIDIsave.get(kezdocim++, pareqfreq0 );
   MIDIsave.get(kezdocim++, pareqfreq1);
   MIDIsave.get(kezdocim++, limitgain);
+  MIDIsave.get(kezdocim++, limitgain2);
   MIDIsave.get(kezdocim++, oplevel);
   MIDIsave.get(kezdocim++, pichvolume );
   MIDIsave.get(kezdocim++, lfo2freq);
   MIDIsave.get(kezdocim++, lfo2delaytime);
   MIDIsave.get(kezdocim++, lfo2volume );
   MIDIsave.get(kezdocim++, modulation);
+  //123
   MIDIsave.get(kezdocim++, reverblevel);
   MIDIsave.get(kezdocim++, reverbdiffusion);
   MIDIsave.get(kezdocim++, delaytime );
@@ -304,13 +326,24 @@ void load(byte loadprog) {
   MIDIsave.get(kezdocim++, released);
   MIDIsave.get(kezdocim++, chorusfreq);
   MIDIsave.get(kezdocim++, choruslevel);
-   MIDIsave.get(kezdocim++, eqvalue);
+  MIDIsave.get(kezdocim++, eqvalue);
+  MIDIsave.get(kezdocim++, parametereqlefton);
+  MIDIsave.get(kezdocim++, parametereqrighton);
+  MIDIsave.get(kezdocim++, parametereqlefton);
+  MIDIsave.get(kezdocim++, limiterrighton);
+  MIDIsave.get(kezdocim++, limiterlefton);
+  MIDIsave.get(kezdocim++, limiterrighton);
+  MIDIsave.get(kezdocim++, delaylowpasseqlefton);
+  MIDIsave.get(kezdocim++, delaylowpasseqlefton);
+  MIDIsave.get(kezdocim++, highpassrighteqon);
+  MIDIsave.get(kezdocim++, highpasslefteqon);
+  //140
   Serial.println("Load END") ;
   Serial.println("ADRESS END:" + String(kezdocim)) ;
 
   proginit();
   parameterstest();
-  if(kezdocim >= EEPROMsize)
+  if (kezdocim >= EEPROMsize)
     Serial.println("Kicsi a lefoglalt EEPROM tomb merete: " + String(kezdocim));
-  
+
 }

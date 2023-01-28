@@ -3,7 +3,7 @@
 // Instantiate eeprom objects with parameter/argument names and sizes
 // Eeprom objektumok példányosítása paraméter/argumentum nevekkel és méretekkel
 EEPROMClass  MIDIsave("eeprom0");
-#define EEPROMsize  600   //  kel még ez a def!
+#define EEPROMsize  2048   //  kel még ez a def!
 
 #include <driver/i2s.h>
 #define I2S_PORT I2S_NUM_0
@@ -60,8 +60,7 @@ void i2s_setpin() {
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 uint ofset = 0x8000;
 unsigned long starttime, stoptime, eltelttime, eltelttime2 ;
-int limitplus = 32767;
-int limitminus = -limitplus;
+
 //audio
 long portamento = 0;
 const uint16_t audiobuffersize = bufferLen / 2;
@@ -129,6 +128,11 @@ bool highpasslefteqon = false;
 bool limiterrighton = false;
 bool limiterlefton = false;
 byte limitgain = 127;
+byte limitgain2 = 127;
+int limitplus = 32767;
+int limitminus = -limitplus;
+int limitplus2 = 32767;
+int limitminus2 = -limitplus2;
 byte revalg = 8;
 //tva
 int gorbetime[8] = { -1, -1, -1, -1, -1, -1, -1, -1};
@@ -165,7 +169,7 @@ byte opmenuoldal = 1;
 //feedback
 long old0[8];
 long old1[8];
-int16_t feedbacklevel = 7;
+byte feedbacklevel = 7;
 long  average = 0;
 //midi
 byte generatornumber = 1;
@@ -399,6 +403,7 @@ int16_t fixfreqstep;
 uint16_t volume = 1024;
 int32_t pich[54] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 uint32_t sinewaveptr[54] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint32_t expgains128[128] ={0, 1, 2, 3, 4, 5, 6, 11, 16, 23, 32, 42, 55, 70, 88, 108, 132, 158, 188, 221, 258, 298, 343, 392, 445, 504, 566, 634, 708, 786, 870, 961, 1057, 1159, 1267, 1383, 1505, 1633, 1770, 1913, 2064, 2223, 2389, 2564, 2747, 2939, 3139, 3349, 3567, 3795, 4032, 4279, 4535, 4802, 5079, 5366, 5665, 5973, 6293, 6625, 6967, 7321, 7688, 8066, 8456, 8858, 9274, 9702, 10142, 10597, 11064, 11545, 12040, 12548, 13071, 13608, 14160, 14726, 15308, 15904, 16516, 17143, 17786, 18444, 19119, 19810, 20517, 21242, 21982, 22740, 23516, 24308, 25118, 25947, 26793, 27657, 28539, 29441, 30361, 31299, 32258, 33235, 34232, 35249, 36285, 37342, 38419, 39517, 40635, 41775, 42935, 44117, 45320, 46545, 47791, 49060, 50351, 51664, 53001, 54359, 55741, 57147, 58575, 60027, 61504, 63004, 64430,65535 };
 uint32_t sinewave1freq;
 uint32_t sinewave2freq;
 uint32_t sinewave3freq;
@@ -654,6 +659,8 @@ void loop() {
           }
           lfo2delay++;
           lfo2value = lfoarray[lfo2arrayindex >> 23] >> lfo2tempvolume ;
+         // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;
+          
          // lfo2actualtest();
           pichband();
           lfo2arrayindex += lfo2freq << 22;
@@ -1350,7 +1357,7 @@ void loop() {
         }
         //LIMITER
         if (limiterlefton) {
-          limiter();
+          limiterleft();
         }
         buffer[ bufferindex] = bufferbe;
       }
@@ -1540,7 +1547,7 @@ void loop() {
         }
         //LIMITER
         if (limiterrighton) {
-          limiter();
+          limiterright();
         }
 
         buffer[bufferindex] = bufferbe;

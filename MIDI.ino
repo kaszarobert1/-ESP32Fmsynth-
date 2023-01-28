@@ -91,12 +91,12 @@ void serialEvent() {
         lfo2arrayindex = 0;
         lfo2tempvolume = 127;
         /*
-        for (int i = 5; i >= 0; i--) {
+          for (int i = 5; i >= 0; i--) {
           if (oldnoteByte[i] == 0)
           {
             generatornumber = i;
           }
-        }
+          }
         */
         gorbetime[generatornumber] = 0;
         ptrnullaz();
@@ -244,9 +244,9 @@ void pichband() {
       case 31: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; break;
       case 32: op2generatorfreq = op2generatorfreqorig + lfo2value; op5generatorfreq = op5generatorfreqorig - lfo2value; break;
       case 33: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; op3generatorfreq = op3generatorfreqorig + lfo2value; break;
-      case 34: f0 = f0orig+lfo2value  * 25 + 4;   eqkiszamol(); break;
-      case 35: f02 = lfo2value  * 25 + 4;   eqkiszamol2(); break;
-      case 36: f0 = lfo2value  * 25 + 4;   eqkiszamol(); f02 = lfo2value  * 25 + 1;   eqkiszamol2(); break;
+      case 34: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol(); break;
+      case 35: f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
+      case 36: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol();   eqkiszamol(); f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
     }
   }
 }
@@ -439,6 +439,12 @@ void parameterchange2() {
           menuoldal = 23;
 
         }
+
+
+
+
+
+
         //opmenuincrement
         if (value == 52)
         {
@@ -537,7 +543,7 @@ void parameterchange2() {
       //button rec
       break;
     case 40:
-    algorithm=value;
+      algorithm = value;
       alg = value  % 7;
       alg2 = value  / 7;
       menuoldal = 18;
@@ -578,19 +584,20 @@ void parameterchange2() {
       menukiir();
       break;
     case 46:
-      limitgain=value;
-      limitplus = limitgain << 9;
-      limitminus = -limitplus;
+      switch (opmenuoldal) {
+        case 1: limitgain = value;   break;
+        case 2: limitgain2 = value;   break;
+
+      }
       menuoldal = 42;
       menukiir();
       break;
     case 47:
-
+      //menupage
+      menuoldal = value;
+      menukiir();
       break;
     case 48:
-      /*
-        ofset = value << 10;
-      */
       released = value >> 4;
       menuoldal = 45;
       menukiir();
@@ -659,8 +666,8 @@ void parameterchange2() {
       break;
     case 94:
       switch (opmenuoldal) {
-        case 1: pareqfreq0=value; f0orig = value  * 25 + 1; break;
-        case 2: pareqfreq1=value; f02orig = value  * 25 + 1; break;
+        case 1: pareqfreq0 = value; f0orig = value  * 25 + 1; break;
+        case 2: pareqfreq1 = value; f02orig = value  * 25 + 1; break;
         case 3:   break;
         case 4:    break;
         case 5:  break;
@@ -728,7 +735,7 @@ void parameterchange2() {
       break;
 
     case 100:
- switch (opmenuoldal) {
+      switch (opmenuoldal) {
         case 1:  if (value == 0) {
             parametereqrighton = false;
           } else {
@@ -982,36 +989,43 @@ void programchange(byte program) {
   if (program < 11) {
     switch (program) {
       case 0:
-     
         program0();
         break;
       case 1:
-        program1();
+        Serial.println("User Prog1") ;
+        load(1);
         break;
       case 2:
-       Serial.println("Prog0") ;
-        load(0);
+        Serial.println("User Prog2") ;
+        load(2);
         break;
       case 3:
-        program3();
+        Serial.println("User Prog3") ;
+        load(3);
         break;
       case 4:
-        program4();
+        Serial.println("User Prog4") ;
+        load(4);
         break;
       case 5:
-        program5();
+        Serial.println("User Prog5") ;
+        load(5);
         break;
       case 6:
-        program6();
+        Serial.println("User Prog6") ;
+        load(6);
         break;
       case 7:
-        program7();
+        Serial.println("User Prog7") ;
+        load(7);
         break;
       case 8:
-        program8();
+        Serial.println("User Prog8") ;
+        load(8);
         break;
       case 9:
-        program9();
+        Serial.println("User Prog9") ;
+        load(9);
         break;
       case 10:
         program10();
@@ -1022,13 +1036,13 @@ void programchange(byte program) {
     menukiir();
   } else {
     /*
-    if (program < 20) {
+      if (program < 20) {
       byte loadprog = program - 11;
       load(loadprog);
       stepprogchanged = 1;
       pachname = "         ";
       lcdkiir( String(lcdprint3(program)) + pachname, "User Preset");
-    }
+      }
     */
   }
 }

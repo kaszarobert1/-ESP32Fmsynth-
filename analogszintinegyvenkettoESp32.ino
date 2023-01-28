@@ -133,6 +133,8 @@ int limitplus = 32767;
 int limitminus = -limitplus;
 int limitplus2 = 32767;
 int limitminus2 = -limitplus2;
+int limitplus3 = 32767;
+int limitminus3 = -limitplus3;
 byte revalg = 8;
 //tva
 int gorbetime[8] = { -1, -1, -1, -1, -1, -1, -1, -1};
@@ -333,9 +335,9 @@ byte op6detunep = 0;
 String pachname;
 byte frame = 8;
 byte modulation = 0;
-byte mastertune=64;
-byte pichvolume=0;
-byte algorithm=27;
+byte mastertune = 64;
+byte pichvolume = 0;
+byte algorithm = 27;
 
 unsigned long ido;
 unsigned long elozoido = 0;
@@ -403,7 +405,7 @@ int16_t fixfreqstep;
 uint16_t volume = 1024;
 int32_t pich[54] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 uint32_t sinewaveptr[54] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-uint32_t expgains128[128] ={0, 1, 2, 3, 4, 5, 6, 11, 16, 23, 32, 42, 55, 70, 88, 108, 132, 158, 188, 221, 258, 298, 343, 392, 445, 504, 566, 634, 708, 786, 870, 961, 1057, 1159, 1267, 1383, 1505, 1633, 1770, 1913, 2064, 2223, 2389, 2564, 2747, 2939, 3139, 3349, 3567, 3795, 4032, 4279, 4535, 4802, 5079, 5366, 5665, 5973, 6293, 6625, 6967, 7321, 7688, 8066, 8456, 8858, 9274, 9702, 10142, 10597, 11064, 11545, 12040, 12548, 13071, 13608, 14160, 14726, 15308, 15904, 16516, 17143, 17786, 18444, 19119, 19810, 20517, 21242, 21982, 22740, 23516, 24308, 25118, 25947, 26793, 27657, 28539, 29441, 30361, 31299, 32258, 33235, 34232, 35249, 36285, 37342, 38419, 39517, 40635, 41775, 42935, 44117, 45320, 46545, 47791, 49060, 50351, 51664, 53001, 54359, 55741, 57147, 58575, 60027, 61504, 63004, 64430,65535 };
+uint32_t expgains128[128] = {0, 1, 2, 3, 4, 5, 6, 11, 16, 23, 32, 42, 55, 70, 88, 108, 132, 158, 188, 221, 258, 298, 343, 392, 445, 504, 566, 634, 708, 786, 870, 961, 1057, 1159, 1267, 1383, 1505, 1633, 1770, 1913, 2064, 2223, 2389, 2564, 2747, 2939, 3139, 3349, 3567, 3795, 4032, 4279, 4535, 4802, 5079, 5366, 5665, 5973, 6293, 6625, 6967, 7321, 7688, 8066, 8456, 8858, 9274, 9702, 10142, 10597, 11064, 11545, 12040, 12548, 13071, 13608, 14160, 14726, 15308, 15904, 16516, 17143, 17786, 18444, 19119, 19810, 20517, 21242, 21982, 22740, 23516, 24308, 25118, 25947, 26793, 27657, 28539, 29441, 30361, 31299, 32258, 33235, 34232, 35249, 36285, 37342, 38419, 39517, 40635, 41775, 42935, 44117, 45320, 46545, 47791, 49060, 50351, 51664, 53001, 54359, 55741, 57147, 58575, 60027, 61504, 63004, 64430, 65535 };
 uint32_t sinewave1freq;
 uint32_t sinewave2freq;
 uint32_t sinewave3freq;
@@ -659,9 +661,9 @@ void loop() {
           }
           lfo2delay++;
           lfo2value = lfoarray[lfo2arrayindex >> 23] >> lfo2tempvolume ;
-         // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;
-          
-         // lfo2actualtest();
+          // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;
+
+          // lfo2actualtest();
           pichband();
           lfo2arrayindex += lfo2freq << 22;
 
@@ -1069,8 +1071,8 @@ void loop() {
           //algoritmus1vege
           //algoritmus2
           case 2:
-            //A-B/F C-D 
-          
+            //A-B/F C-D
+
             if (gorbetime[0] > -1 ) {
               average = (old0[0] + old1[0]) >> 1;
               old1[0] = old0[0];
@@ -1140,28 +1142,28 @@ void loop() {
             break;
           //algoritmus3
           case 3:
-              //A-B-C
-            
-              //this is fantastic!!!! very good quality clear sound!!!
-              if (gorbetime[0] > 0 ) {
-                bufferbe +=   egyopgenA(sinewaveptr[1] + egyopgenB(sinewaveptr[9] + egyopgenC(sinewaveptr[17], op3level[0], op3lep), op2level[0], op2lep), op1level[0], op1lep);
-              }
-              if (gorbetime[1] > 0) {
-                bufferbe +=   egyopgenA(sinewaveptr[2] + egyopgenB(sinewaveptr[10] + egyopgenC(sinewaveptr[18], op3level[1], op3lep), op2level[1], op2lep), op1level[1], op1lep);
-              }
-              if (gorbetime[2] > 0) {
-                bufferbe +=   egyopgenA(sinewaveptr[3] + egyopgenB(sinewaveptr[11] + egyopgenC(sinewaveptr[19], op3level[2], op3lep), op2level[2], op2lep), op1level[2], op1lep);
-              }
-              if (gorbetime[3] > 0) {
-                bufferbe +=   egyopgenA(sinewaveptr[4] + egyopgenB(sinewaveptr[12] + egyopgenC(sinewaveptr[20], op3level[3], op3lep), op2level[3], op2lep), op1level[3], op1lep);
-              }
-              if (gorbetime[4] > 0) {
-                bufferbe +=   egyopgenA(sinewaveptr[5] + egyopgenB(sinewaveptr[13] + egyopgenC(sinewaveptr[21], op3level[4], op3lep), op2level[4], op2lep), op1level[4], op1lep);
-              }
-              if (gorbetime[5] > 0) {
-                bufferbe +=   egyopgenA(sinewaveptr[6] + egyopgenB(sinewaveptr[14] + egyopgenC(sinewaveptr[22], op3level[5], op3lep), op2level[5], op2lep), op1level[5], op1lep);
-              }
-            
+            //A-B-C
+
+            //this is fantastic!!!! very good quality clear sound!!!
+            if (gorbetime[0] > 0 ) {
+              bufferbe +=   egyopgenA(sinewaveptr[1] + egyopgenB(sinewaveptr[9] + egyopgenC(sinewaveptr[17], op3level[0], op3lep), op2level[0], op2lep), op1level[0], op1lep);
+            }
+            if (gorbetime[1] > 0) {
+              bufferbe +=   egyopgenA(sinewaveptr[2] + egyopgenB(sinewaveptr[10] + egyopgenC(sinewaveptr[18], op3level[1], op3lep), op2level[1], op2lep), op1level[1], op1lep);
+            }
+            if (gorbetime[2] > 0) {
+              bufferbe +=   egyopgenA(sinewaveptr[3] + egyopgenB(sinewaveptr[11] + egyopgenC(sinewaveptr[19], op3level[2], op3lep), op2level[2], op2lep), op1level[2], op1lep);
+            }
+            if (gorbetime[3] > 0) {
+              bufferbe +=   egyopgenA(sinewaveptr[4] + egyopgenB(sinewaveptr[12] + egyopgenC(sinewaveptr[20], op3level[3], op3lep), op2level[3], op2lep), op1level[3], op1lep);
+            }
+            if (gorbetime[4] > 0) {
+              bufferbe +=   egyopgenA(sinewaveptr[5] + egyopgenB(sinewaveptr[13] + egyopgenC(sinewaveptr[21], op3level[4], op3lep), op2level[4], op2lep), op1level[4], op1lep);
+            }
+            if (gorbetime[5] > 0) {
+              bufferbe +=   egyopgenA(sinewaveptr[6] + egyopgenB(sinewaveptr[14] + egyopgenC(sinewaveptr[22], op3level[5], op3lep), op2level[5], op2lep), op1level[5], op1lep);
+            }
+
             break;
           //algoritmus4
           case 4:
@@ -1388,25 +1390,88 @@ void loop() {
 
             break;
           case 2:
+            int temp;
+            byte tempgain;
+            //under deployment 1op+limiter op6->limitgain op6lop-->outputlevel
             if (gorbetime[0] > -1 ) {
-              //int tmp= egyopgenE(sinewaveptr[33], op5level[0], op5lep);
-              bufferbe +=   egyopgenE(sinewaveptr[33] - egyopgenF(sinewaveptr[41], op6level[0], op6lep), op5level[0], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[0];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[33], op5level[0], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
             if (gorbetime[1] > -1) {
-              bufferbe +=   egyopgenE(sinewaveptr[34] - egyopgenF(sinewaveptr[42], op6level[1], op6lep), op5level[1], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[1];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[34] , op5level[1], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
             if (gorbetime[2] > -1) {
-              bufferbe +=   egyopgenE(sinewaveptr[35] - egyopgenF(sinewaveptr[43], op6level[2], op6lep), op5level[2], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[2];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[35], op5level[2], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
             if (gorbetime[3] > -1) {
-              bufferbe +=   egyopgenE(sinewaveptr[36] - egyopgenF(sinewaveptr[44], op6level[3], op6lep), op5level[3], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[3];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[36], op5level[3], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
             if (gorbetime[4] > -1) {
-              bufferbe +=   egyopgenE(sinewaveptr[37] - egyopgenF(sinewaveptr[45], op6level[4], op6lep), op5level[4], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[4];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[37] , op5level[4], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
             if (gorbetime[5] > -1) {
-              bufferbe +=   egyopgenE(sinewaveptr[38] - egyopgenF(sinewaveptr[46], op6level[5], op6lep), op5level[5], op5lep);
+              tempgain=op6lep-13;
+              limitplus3 = op6level[5];
+              limitminus3 = -limitplus3;
+              temp =   egyopgenE(sinewaveptr[38] , op5level[5], op5lep)<<4;
+              if (temp > limitplus3) {
+                temp = limitplus3;
+              }
+              if (temp < limitminus3) {
+                temp = limitminus3;
+              }
+              bufferbe += temp<<tempgain;
             }
+
             break;
           case 3:
             if (gorbetime[0] > -1 ) {

@@ -827,7 +827,7 @@ void menukiir() {
           lcdsecondline = "[5]-(6)         ";
           break;
         case 2:
-          lcdsecondline = "[5]--(6)        ";
+          lcdsecondline = "[5]-(DIST6)        ";
           break;
         case 3:
           lcdsecondline = "[1]-(2-3-4-5-6) ";

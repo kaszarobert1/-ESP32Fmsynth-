@@ -181,6 +181,7 @@ void limitcount2() {
 
 }
 
+
 //LIMITER
 void limiterleft() {
   if (bufferbe > limitplus) {
@@ -199,6 +200,18 @@ void limiterright() {
     bufferbe = limitminus2;
   }
 }
+
+
+void limiter3() {
+  if (bufferbe > limitplus3) {
+    bufferbe = limitplus3;
+  }
+  if (bufferbe < limitminus3) {
+    bufferbe = limitminus3;
+  }
+}
+
+
 /*
   void reverbold(){
     //Delay:

@@ -5,7 +5,7 @@
 
 
 void save() {
-  EEPROM.begin(EEPROMsize);
+  //EEPROM.begin(EEPROMsize);
   saveprog--;
   int kezdocim = saveprog * 150;
   Serial.println("SAVE ADRESS BEGIN:" + String(kezdocim)) ;
@@ -174,7 +174,7 @@ void save() {
 
 void load(byte loadprog) {
   loadprog--;
-  EEPROM.begin(EEPROMsize);
+  //EEPROM.begin(EEPROMsize);
   int kezdocim = loadprog * 150;
   Serial.println("LOAD ADRESS BEGIN:" + String(kezdocim)) ;
   //1

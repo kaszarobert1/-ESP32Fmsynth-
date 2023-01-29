@@ -594,7 +594,7 @@ void setup() {
 
 
   // EEPROM init
-  if (!MIDIsave.begin(600)) {
+  if (!MIDIsave.begin(1800)) {
     Serial.println("Failed to initialise MIDIsave");
     Serial.println("Restarting...");
     delay(1000);

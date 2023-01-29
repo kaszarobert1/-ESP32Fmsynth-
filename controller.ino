@@ -6,14 +6,14 @@ bool elozogomb5val = true;
 bool elozogomb6val = true;
 bool elozogomb7val = true;
 bool elozogomb8val = true;
-uint8_t  gomb1val;
-uint8_t  gomb2val;
-uint8_t  gomb3val;
-uint8_t  gomb4val;
-uint8_t  gomb5val;
-uint8_t  gomb6val;
-uint8_t  gomb7val;
-uint8_t  gomb8val;
+uint8_t  gomb1val=true;
+uint8_t  gomb2val=true;
+uint8_t  gomb3val=true;
+uint8_t  gomb4val=true;
+uint8_t  gomb5val=true;
+uint8_t  gomb6val=true;
+uint8_t  gomb7val=true;
+uint8_t  gomb8val=true;
 
 void vezerlok() { 
     int gomb2val = digitalRead(BUTTON_PIN);

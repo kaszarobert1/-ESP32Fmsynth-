@@ -35,8 +35,6 @@ void proginit() {
   f02orig = pareqfreq1  * 25 + 1;
   limitcount();
   limitcount2();
-
-
   oplevel = oplevel / 2 + 1;
   alg = algorithm % 7;
   alg2 = algorithm / 7;
@@ -51,7 +49,7 @@ void proginit() {
 }
 
 
-void program0() {
+void program9() {
   delaylowpasseqrighton = 1;
   delaylowpasseqlefton = 1;
   limiterlefton = 0;
@@ -1157,7 +1155,7 @@ void program8() {
   proginit();
 }
 
-void program9() {
+void program0() {
 delaylowpasseqrighton=1;
 delaylowpasseqlefton=1;
 limiterlefton=0;
@@ -1166,7 +1164,7 @@ highpassrighteqon=0;
 parametereqrighton=1;
 highpasslefteqon=0;
 parametereqlefton=0;
-mastertune=63;
+mastertune=72;
 szorzo=10;
 lfo2volume=0;
 modulation=36;

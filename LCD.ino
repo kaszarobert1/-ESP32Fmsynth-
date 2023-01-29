@@ -109,7 +109,7 @@
 */
 //LCD PARAMETERS
 String savestring = "NO";
-byte saveprog = 0;
+byte saveprog = 1;
 byte menu = 1;
 byte oldal = 0;
 byte menupos = 0;

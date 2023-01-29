@@ -6,8 +6,8 @@
 
 void save() {
   //EEPROM.begin(EEPROMsize);
-  saveprog--;
-  int kezdocim = saveprog * 150;
+
+  int kezdocim = (saveprog - 1) * 128;
   Serial.println("SAVE ADRESS BEGIN:" + String(kezdocim)) ;
   //1
   Serial.println("SAVE BEGIN") ;
@@ -117,13 +117,33 @@ void save() {
   MIDIsave.put(kezdocim++, op4detunep);
   MIDIsave.put(kezdocim++, op5detunep);
   MIDIsave.put(kezdocim++, op6detunep);
-  MIDIsave.put(kezdocim++, op1notefixed );
-  MIDIsave.put(kezdocim++, op2notefixed );
-  MIDIsave.put(kezdocim++, op3notefixed );
-  MIDIsave.put(kezdocim++, op4notefixed );
-  MIDIsave.put(kezdocim++, op5notefixed );
-  MIDIsave.put(kezdocim++, op6notefixed );
-  //106
+  byte tmp = 0;
+  bitWrite(tmp, 0 , op1notefixed);
+  bitWrite(tmp, 1 , op2notefixed);
+  bitWrite(tmp, 2 , op3notefixed);
+  bitWrite(tmp, 3 , op4notefixed);
+  bitWrite(tmp, 4 , op5notefixed);
+  bitWrite(tmp, 5 , op6notefixed);
+  bitWrite(tmp, 6 , 0);
+  bitWrite(tmp, 7 , 0);
+  MIDIsave.put(kezdocim++, tmp );
+  Serial.println("notefixparameters:") ;
+  Serial.println(tmp) ;
+  Serial.println(bitRead(tmp, 0)) ;
+  Serial.println(bitRead(tmp, 1)) ;
+  Serial.println(bitRead(tmp, 2)) ;
+  Serial.println(bitRead(tmp, 3)) ;
+  Serial.println(bitRead(tmp, 4)) ;
+  Serial.println(bitRead(tmp, 5)) ;
+  /*
+    MIDIsave.put(kezdocim++, op1notefixed );
+    MIDIsave.put(kezdocim++, op2notefixed );
+    MIDIsave.put(kezdocim++, op3notefixed );
+    MIDIsave.put(kezdocim++, op4notefixed );
+    MIDIsave.put(kezdocim++, op5notefixed );
+    MIDIsave.put(kezdocim++, op6notefixed );
+  */
+  //101
   MIDIsave.put(kezdocim++, frame );
   MIDIsave.put(kezdocim++, szorzo );
   MIDIsave.put(kezdocim++, algorithm );
@@ -151,19 +171,22 @@ void save() {
   MIDIsave.put(kezdocim++, chorusfreq);
   MIDIsave.put(kezdocim++, choruslevel);
   MIDIsave.put(kezdocim++, eqvalue);
-  MIDIsave.put(kezdocim++, parametereqlefton);
-  MIDIsave.put(kezdocim++, parametereqrighton);
-  MIDIsave.put(kezdocim++, parametereqlefton);
-  MIDIsave.put(kezdocim++, limiterrighton);
-  MIDIsave.put(kezdocim++, limiterlefton);
-  MIDIsave.put(kezdocim++, limiterrighton);
-  MIDIsave.put(kezdocim++, delaylowpasseqlefton);
-  MIDIsave.put(kezdocim++, delaylowpasseqlefton);
-  MIDIsave.put(kezdocim++, highpassrighteqon);
-  MIDIsave.put(kezdocim++, highpasslefteqon);
+  tmp = 0;
+
+  bitWrite(tmp, 0 , parametereqlefton);
+  bitWrite(tmp, 1 , parametereqrighton);
+  bitWrite(tmp, 2 , limiterlefton);
+  bitWrite(tmp, 3 , limiterrighton);
+  bitWrite(tmp, 4 , delaylowpasseqlefton);
+  bitWrite(tmp, 5 , delaylowpasseqrighton);
+  bitWrite(tmp, 6 , highpasslefteqon);
+  bitWrite(tmp, 7 , highpassrighteqon);
+  MIDIsave.put(kezdocim++, tmp );
+  Serial.println("effectparameters:") ;
+  Serial.println(tmp) ;
   //140
 
- MIDIsave.commit();
+  MIDIsave.commit();
   Serial.println("SAVE END") ;
   Serial.println("ADRESS END:" + String(kezdocim)) ;
   if (kezdocim >= EEPROMsize)
@@ -173,9 +196,9 @@ void save() {
 }
 
 void load(byte loadprog) {
-  loadprog--;
+
   //EEPROM.begin(EEPROMsize);
-  int kezdocim = loadprog * 150;
+  int kezdocim = (loadprog - 1) * 128;
   Serial.println("LOAD ADRESS BEGIN:" + String(kezdocim)) ;
   //1
   Serial.println("Load 1.") ;
@@ -233,7 +256,7 @@ void load(byte loadprog) {
   MIDIsave.get(kezdocim++, op5rl);
   MIDIsave.get(kezdocim++, op6rl);
   //49
-  Serial.print("Load 49.") ;
+  Serial.println("Load 49.") ;
   MIDIsave.get(kezdocim++, op1rr);
   MIDIsave.get(kezdocim++, op2rr);
   MIDIsave.get(kezdocim++, op3rr);
@@ -291,12 +314,25 @@ void load(byte loadprog) {
   MIDIsave.get(kezdocim++, op4detunep);
   MIDIsave.get(kezdocim++, op5detunep);
   MIDIsave.get(kezdocim++, op6detunep);
-  MIDIsave.get(kezdocim++, op1notefixed);
-  MIDIsave.get(kezdocim++, op2notefixed);
-  MIDIsave.get(kezdocim++, op3notefixed);
-  MIDIsave.get(kezdocim++, op4notefixed);
-  MIDIsave.get(kezdocim++, op5notefixed);
-  MIDIsave.get(kezdocim++, op6notefixed);
+
+  //6 boolean
+  byte tmp = 0;
+  MIDIsave.get(kezdocim++, tmp);
+  op1notefixed = bitRead(tmp, 0);
+  op2notefixed = bitRead(tmp, 1);
+  op3notefixed = bitRead(tmp, 2);
+  op4notefixed = bitRead(tmp, 3);
+  op5notefixed = bitRead(tmp, 4);
+  op6notefixed = bitRead(tmp, 5);
+  Serial.println("notefix:") ;
+  Serial.println(tmp) ;
+  Serial.println(bitRead(tmp, 0)) ;
+  Serial.println(bitRead(tmp, 1)) ;
+  Serial.println(bitRead(tmp, 2)) ;
+  Serial.println(bitRead(tmp, 3)) ;
+  Serial.println(bitRead(tmp, 4)) ;
+  Serial.println(bitRead(tmp, 5)) ;
+
   //107
 
   Serial.println("Load 107.") ;
@@ -327,16 +363,20 @@ void load(byte loadprog) {
   MIDIsave.get(kezdocim++, chorusfreq);
   MIDIsave.get(kezdocim++, choruslevel);
   MIDIsave.get(kezdocim++, eqvalue);
-  MIDIsave.get(kezdocim++, parametereqlefton);
-  MIDIsave.get(kezdocim++, parametereqrighton);
-  MIDIsave.get(kezdocim++, parametereqlefton);
-  MIDIsave.get(kezdocim++, limiterrighton);
-  MIDIsave.get(kezdocim++, limiterlefton);
-  MIDIsave.get(kezdocim++, limiterrighton);
-  MIDIsave.get(kezdocim++, delaylowpasseqlefton);
-  MIDIsave.get(kezdocim++, delaylowpasseqlefton);
-  MIDIsave.get(kezdocim++, highpassrighteqon);
-  MIDIsave.get(kezdocim++, highpasslefteqon);
+  tmp = 0;
+  MIDIsave.get(kezdocim++, tmp);
+  parametereqlefton = bitRead(tmp, 0);
+  parametereqrighton = bitRead(tmp, 1);
+  limiterlefton = bitRead(tmp, 2);
+  limiterrighton = bitRead(tmp, 3);
+  delaylowpasseqlefton = bitRead(tmp, 4);
+  delaylowpasseqrighton = bitRead(tmp, 5);
+  highpasslefteqon = bitRead(tmp, 6);
+  highpassrighteqon = bitRead(tmp, 7);
+  Serial.println("effectparameters:") ;
+  Serial.println(tmp) ;
+
+
   //140
   Serial.println("Load END") ;
   Serial.println("ADRESS END:" + String(kezdocim)) ;

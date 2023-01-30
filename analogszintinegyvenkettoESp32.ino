@@ -396,7 +396,7 @@ uint32_t lfo2arrayindex = 0;
 byte lfo2freq = 0;
 byte lfo2volume = 8;
 byte lfo2tempvolume = 8;
-byte lfo2value = 0;
+uint32_t lfo2value = 0;
 byte lfo2delaytime = 20;
 byte lfo2delay = 0;
 byte oplfo = 1;
@@ -648,19 +648,10 @@ void loop() {
           //  op3volume = op3volumeorig + lfoarray[lfo2arrayindex >> 1] >> lfo2volume;
 
           if (lfo2delay > lfo2delaytime) {
-            lfo2tempvolume = lfo2volume;
-          } else {
-            /*
-              if (lfo2tempvolume > lfo2volume && lfo2delay > lfo2delaytime - (8 - lfo2volume))
-              {
-
-              lfo2tempvolume--;
-              }
-              lfo2delay++;
-            */
-          }
+            lfo2tempvolume = lfo2volume;          
+          } 
           lfo2delay++;
-          lfo2value = lfoarray[lfo2arrayindex >> 23] >> lfo2tempvolume ;
+          lfo2value = lfoarray[lfo2arrayindex >> 23] * expgains128[lfo2tempvolume] ;
           // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;
 
           // lfo2actualtest();

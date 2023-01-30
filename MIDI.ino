@@ -89,7 +89,7 @@ void serialEvent() {
         //search empty note:
         lfo2delay = 0;
         lfo2arrayindex = 0;
-        lfo2tempvolume = 127;
+        lfo2tempvolume = 0;
         /*
           for (int i = 5; i >= 0; i--) {
           if (oldnoteByte[i] == 0)
@@ -231,7 +231,7 @@ void pichband() {
       case 18: op2volume = op2volumeorig + lfo2value; op4volume = op4volumeorig - lfo2value; op6volume = op6volumeorig + lfo2value; break;
       case 19: op2volume = op2volumeorig + lfo2value; op3volume = op3volumeorig + lfo2value; op5volume = op5volumeorig + lfo2value; break;
       case 20: op2volume = op2volumeorig + lfo2value; op3volume = op3volumeorig - lfo2value; op5volume = op5volumeorig + lfo2value; break;
-      case 21: op1generatorfreq = op1generatorfreqorig + lfo2value; break;
+      case 21: op1detune = (op1detunep << 12) + lfo2value; break;
       case 22: op2generatorfreq = op2generatorfreqorig + lfo2value; break;
       case 23: op3generatorfreq = op3generatorfreqorig + lfo2value; break;
       case 24: op4generatorfreq = op4generatorfreqorig + lfo2value; break;
@@ -244,14 +244,14 @@ void pichband() {
       case 31: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; break;
       case 32: op2generatorfreq = op2generatorfreqorig + lfo2value; op5generatorfreq = op5generatorfreqorig - lfo2value; break;
       case 33: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; op3generatorfreq = op3generatorfreqorig + lfo2value; break;
-    case 34: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol(); break;
-      case 35: f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
-      case 36: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol();   eqkiszamol(); f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
-      /*
-      case 34: f0 = f0orig + (expgains128[lfo2value]>>1) ;   eqkiszamol(); break;      
-      case 35: f02 = f02orig + (expgains128[lfo2value]>>1);   eqkiszamol2(); break;
-      case 36: f0 = f0orig + (expgains128[lfo2value]>>1);   eqkiszamol();   eqkiszamol(); f02 = f02orig +(expgains128[lfo2value]>>1);   eqkiszamol2(); break;
-      */
+      case 34: f0 = f0orig + lfo2value;   eqkiszamol(); break;
+      case 35: f02 = f02orig + lfo2value;   eqkiszamol2(); break;
+      case 36: f0 = f0orig + lfo2value;   eqkiszamol();   eqkiszamol(); f02 = f02orig + lfo2value;   eqkiszamol2(); break;
+        /*
+          case 34: f0 = f0orig + (expgains128[lfo2value]>>1) ;   eqkiszamol(); break;
+          case 35: f02 = f02orig + (expgains128[lfo2value]>>1);   eqkiszamol2(); break;
+          case 36: f0 = f0orig + (expgains128[lfo2value]>>1);   eqkiszamol();   eqkiszamol(); f02 = f02orig +(expgains128[lfo2value]>>1);   eqkiszamol2(); break;
+        */
     }
   }
 }
@@ -671,8 +671,8 @@ void parameterchange2() {
       break;
     case 94:
       switch (opmenuoldal) {
-        case 1: pareqfreq0 = value;  f0orig = expgains128[pareqfreq0]>>1+1; break;
-        case 2: pareqfreq1 = value;  f02orig =expgains128[pareqfreq1]>>1+1; break;
+        case 1: pareqfreq0 = value;  f0orig = expgains128[pareqfreq0] >> 1 + 1; break;
+        case 2: pareqfreq1 = value;  f02orig = expgains128[pareqfreq1] >> 1 + 1; break;
         case 3:   break;
         case 4:    break;
         case 5:  break;

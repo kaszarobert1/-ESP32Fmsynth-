@@ -31,8 +31,8 @@ void proginit() {
   c = 4000 + mastertune * 30;
   Q = Qp / 25.0;
   Q2 = Q2p / 25.0;
-  f0orig = pareqfreq0  * 25 + 1;
-  f02orig = pareqfreq1  * 25 + 1;
+  f0orig = expgains128[pareqfreq0]>>1+1;
+  f02orig =expgains128[pareqfreq1]>>1+1;
   limitcount();
   limitcount2();
   oplevel = oplevel / 2 + 1;

@@ -244,9 +244,14 @@ void pichband() {
       case 31: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; break;
       case 32: op2generatorfreq = op2generatorfreqorig + lfo2value; op5generatorfreq = op5generatorfreqorig - lfo2value; break;
       case 33: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; op3generatorfreq = op3generatorfreqorig + lfo2value; break;
-      case 34: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol(); break;
+    case 34: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol(); break;
       case 35: f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
       case 36: f0 = f0orig + lfo2value  * 25 + 4;   eqkiszamol();   eqkiszamol(); f02 = f02orig + lfo2value  * 25 + 4;   eqkiszamol2(); break;
+      /*
+      case 34: f0 = f0orig + (expgains128[lfo2value]>>1) ;   eqkiszamol(); break;      
+      case 35: f02 = f02orig + (expgains128[lfo2value]>>1);   eqkiszamol2(); break;
+      case 36: f0 = f0orig + (expgains128[lfo2value]>>1);   eqkiszamol();   eqkiszamol(); f02 = f02orig +(expgains128[lfo2value]>>1);   eqkiszamol2(); break;
+      */
     }
   }
 }
@@ -666,8 +671,8 @@ void parameterchange2() {
       break;
     case 94:
       switch (opmenuoldal) {
-        case 1: pareqfreq0 = value; f0orig = value  * 25 + 1; break;
-        case 2: pareqfreq1 = value; f02orig = value  * 25 + 1; break;
+        case 1: pareqfreq0 = value;  f0orig = expgains128[pareqfreq0]>>1+1; break;
+        case 2: pareqfreq1 = value;  f02orig =expgains128[pareqfreq1]>>1+1; break;
         case 3:   break;
         case 4:    break;
         case 5:  break;
@@ -1028,21 +1033,20 @@ void programchange(byte program) {
         load(9);
         break;
       case 10:
-        program10();
+        Serial.println("User Prog10") ;
+        load(10);
         break;
     }
-    opgorbeinittry();
-    maxreleaseset();
-    menukiir();
-  } else {
     /*
-      if (program < 20) {
-      byte loadprog = program - 11;
-      load(loadprog);
-      stepprogchanged = 1;
-      pachname = "         ";
-      lcdkiir( String(lcdprint3(program)) + pachname, "User Preset");
-      }
+      opgorbeinittry();
+      maxreleaseset();
+      menukiir();
     */
+  } else {
+    if (program <= 16) {
+      load(program);
+    }
+
+
   }
 }

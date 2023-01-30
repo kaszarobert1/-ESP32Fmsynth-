@@ -1512,7 +1512,7 @@ void menukiir() {
 
     case 49:
       if (inc) {
-        if (saveprog < 9) {
+        if (saveprog < 16) {
           saveprog++;
         } else {
           saveprog = 1;
@@ -1523,7 +1523,7 @@ void menukiir() {
         if (saveprog > 1) {
           saveprog--;
         } else {
-          saveprog = 9;
+          saveprog = 16;
         }
         dec = false;
       }

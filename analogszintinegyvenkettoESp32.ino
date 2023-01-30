@@ -648,15 +648,17 @@ void loop() {
           //  op3volume = op3volumeorig + lfoarray[lfo2arrayindex >> 1] >> lfo2volume;
 
           if (lfo2delay > lfo2delaytime) {
-            lfo2tempvolume = lfo2volume;          
-          } 
+            lfo2tempvolume = lfo2volume;
+            lfo2value = lfoarray[lfo2arrayindex >> 23] * expgains128[lfo2tempvolume] ;
+            pichband();
+            lfo2arrayindex += lfo2freq << 22;
+          }
           lfo2delay++;
-          lfo2value = lfoarray[lfo2arrayindex >> 23] * expgains128[lfo2tempvolume] ;
+
           // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;
 
           // lfo2actualtest();
-          pichband();
-          lfo2arrayindex += lfo2freq << 22;
+
 
 
         }
@@ -1385,82 +1387,82 @@ void loop() {
             byte tempgain;
             //under deployment 1op+limiter op6->limitgain op6lop-->outputlevel
             if (gorbetime[0] > -1 ) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[0];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[33], op5level[0], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[33], op5level[0], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
             if (gorbetime[1] > -1) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[1];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[34] , op5level[1], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[34] , op5level[1], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
             if (gorbetime[2] > -1) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[2];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[35], op5level[2], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[35], op5level[2], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
             if (gorbetime[3] > -1) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[3];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[36], op5level[3], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[36], op5level[3], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
             if (gorbetime[4] > -1) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[4];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[37] , op5level[4], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[37] , op5level[4], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
             if (gorbetime[5] > -1) {
-              tempgain=op6lep-13;
+              tempgain = op6lep - 13;
               limitplus3 = op6level[5];
               limitminus3 = -limitplus3;
-              temp =   egyopgenE(sinewaveptr[38] , op5level[5], op5lep)<<4;
+              temp =   egyopgenE(sinewaveptr[38] , op5level[5], op5lep) << 4;
               if (temp > limitplus3) {
                 temp = limitplus3;
               }
               if (temp < limitminus3) {
                 temp = limitminus3;
               }
-              bufferbe += temp<<tempgain;
+              bufferbe += temp << tempgain;
             }
 
             break;

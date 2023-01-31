@@ -101,6 +101,7 @@ void serialEvent() {
         gorbetime[generatornumber] = 0;
         ptrnullaz();
         wavefreq[generatornumber] = noteertek[noteByte];
+
         waveveloc[generatornumber]  = velocityByte;
         oldnoteByte[generatornumber] = noteByte;
         //next note on set
@@ -163,6 +164,32 @@ void serialEvent() {
         break;
 
       case midi:: AfterTouchPoly:
+
+        break;
+      case midi:: PitchBend:
+        noteByte = 104;
+        velocityByte = MIDI2.getData2();
+       
+        
+        if (velocityByte <= 63 )
+        {
+           op1generatorfreq =op1generatorfreqorig-((64-velocityByte)>>2);
+          //  op1detune = (op1detunep << 12) -  ((64-velocityByte)<<11);
+          //op1detune=(op1detunep << 12)-(64-velocityByte)<<13;
+         
+        } else if (velocityByte >= 65) {
+            op1generatorfreq =op1generatorfreqorig+((velocityByte-64)>>2);
+          //   op1detune = (op1detunep << 12) + (velocityByte-64)<<11);
+          //   op1detune=(op1detunep << 12)+(velocityByte-62)<<13;
+        }
+        else {
+          op1generatorfreq = op1generatorfreqorig;
+           //op1detune = (op1detunep << 12);
+         
+        }
+
+
+        parameterchange2();
 
         break;
       case midi:: ControlChange:
@@ -232,7 +259,7 @@ void pichband() {
       case 12: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig - ((lfo2value * lfo2volume) >> 10);  break;
       case 13: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10); break;
       case 14: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
-      case 15: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10);; op3volume = op3volumeorig +((lfo2value * lfo2volume) >> 10); break;
+      case 15: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10);; op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10); break;
       case 16: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig - ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10); break;
       case 17: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10); op6volume = op6volumeorig + ((lfo2value * lfo2volume) >> 10); break;
       case 18: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig - ((lfo2value * lfo2volume) >> 10); op6volume = op6volumeorig + ((lfo2value * lfo2volume) >> 10); break;
@@ -251,12 +278,12 @@ void pichband() {
       case 31: op1detune = (op1detunep << 12) + lfo2value;  op5detune = (op5detunep << 12) + lfo2value; break; //1,5
       case 32: op2detune = (op2detunep << 12) + lfo2value;  op6detune = (op6detunep << 12) + lfo2value;  break;//2,6
       case 33: op1detune = (op1detunep << 12) + lfo2value;  op3detune = (op3detunep << 12) + lfo2value; op4detune = (op4detunep << 12) + lfo2value; break;//1,3,4
-      case 34: f0 = f0orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol(); break;
-      case 35: f02 = f02orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol2(); break;
-      case 36: f0 = f0orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol();   eqkiszamol(); f02 = f02orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol2(); break;
-      case 37: f0 = f0orig + ((lfo2value * lfo2volume)>>1); op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10);  eqkiszamol(); break;
-      case 38: f02 = f02orig + ((lfo2value * lfo2volume)>>1);   op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10); eqkiszamol2(); break;
-      
+      case 34: f0 = f0orig + ((lfo2value * lfo2volume) >> 1);   eqkiszamol(); break;
+      case 35: f02 = f02orig + ((lfo2value * lfo2volume) >> 1);   eqkiszamol2(); break;
+      case 36: f0 = f0orig + ((lfo2value * lfo2volume) >> 1);   eqkiszamol();   eqkiszamol(); f02 = f02orig + ((lfo2value * lfo2volume) >> 1);   eqkiszamol2(); break;
+      case 37: f0 = f0orig + ((lfo2value * lfo2volume) >> 1); op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10);  eqkiszamol(); break;
+      case 38: f02 = f02orig + ((lfo2value * lfo2volume) >> 1);   op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10); eqkiszamol2(); break;
+
         /*
           case 34: f0 = f0orig + (expgains128[lfo2value]>>1) ;   eqkiszamol(); break;
           case 35: f02 = f02orig + (expgains128[lfo2value]>>1);   eqkiszamol2(); break;
@@ -315,7 +342,12 @@ void parameterchange2() {
       menukiir();
       break;
     case 1:
-      picheglevel = value << 8;
+      lfo2volume = value;
+      if (lfo2delay < lfo2delaytime)
+      {
+        lfo2delay = lfo2delaytime;
+      }
+
       break;
     case 5:
       switch (opmenuoldal) {
@@ -583,7 +615,7 @@ void parameterchange2() {
       break;
     case 44:
       switch (opmenuoldal) {
-        case 1: op1generatorfreqorig = value;  break;
+        case 1:   break;
         case 2: op2generatorfreqorig = value; break;
         case 3: op3generatorfreqorig = value; break;
         case 4: op4generatorfreqorig = value; break;

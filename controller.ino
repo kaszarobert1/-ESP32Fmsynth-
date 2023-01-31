@@ -206,6 +206,11 @@ void keyon(byte noteByte){
         gorbetime[generatornumber] = 0;
         ptrnullaz();
         wavefreq[generatornumber] = noteertek[noteByte];
+        wavefreq[generatornumber] = noteertek[noteByte];
+        wavefreq[generatornumber] = noteertek[noteByte];
+        wavefreq[generatornumber] = noteertek[noteByte];
+        wavefreq[generatornumber] = noteertek[noteByte];
+        wavefreq[generatornumber] = noteertek[noteByte];
         waveveloc[generatornumber]  = 127;
         oldnoteByte[generatornumber] = noteByte;
         generatornumber++;

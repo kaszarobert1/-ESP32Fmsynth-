@@ -545,7 +545,6 @@ struct Serial2MIDISettings : public midi::DefaultSettings
 
 MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial2, MIDI2, Serial2MIDISettings);
 
-
 //esp teszt
 #define BUTTON_PIN 23
 #define RXD2 16
@@ -650,7 +649,7 @@ void loop() {
           if (lfo2delay > lfo2delaytime) {
            // lfo2tempvolume = lfo2volume;
             lfo2value = lfoarray[lfo2arrayindex >> 23];            
-            lfo2arrayindex += lfo2freq << 22;
+            lfo2arrayindex += expgains128[lfo2freq] << 15;
           }else{
               lfo2value=0;
             }      

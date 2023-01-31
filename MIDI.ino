@@ -89,7 +89,7 @@ void serialEvent() {
         //search empty note:
         lfo2delay = 0;
         lfo2arrayindex = 0;
-        lfo2tempvolume = 0;
+        // lfo2tempvolume = 0;
         /*
           for (int i = 5; i >= 0; i--) {
           if (oldnoteByte[i] == 0)
@@ -199,54 +199,64 @@ void pichband() {
       op5volume = op5volumeorig;
       op6volume = op6volumeorig;
     }
-    if (modulation > 21 and modulation < 40)
+    if (modulation >= 21 and modulation <= 33)
     {
-      op1generatorfreq = op1generatorfreqorig;
-      op2generatorfreq = op2generatorfreqorig;
-      op3generatorfreq = op3generatorfreqorig;
-      op4generatorfreq = op4generatorfreqorig;
-      op5generatorfreq = op5generatorfreqorig;
-      op6generatorfreq = op1generatorfreqorig;
+      op1detune = (op1detunep << 12);
+      op2detune = (op2detunep << 12);
+      op3detune = (op3detunep << 12);
+      op4detune = (op4detunep << 12);
+      op5detune = (op5detunep << 12);
+      op6detune = (op6detunep << 12);
     }
+
+    if (modulation >= 34 and modulation <= 41)
+    {
+      f0 = f0orig;
+      f02 = f02orig ;
+    }
+
     lastmodulation = modulation;
   } else {
     switch (modulation) {
-      case 1:  op1volume = op1volumeorig + lfo2value;  break;
-      case 2:  op2volume = op2volumeorig + lfo2value;  break;
-      case 3:  op3volume = op3volumeorig + lfo2value;  break;
-      case 4:  op4volume = op4volumeorig + lfo2value;  break;
-      case 5:  op5volume = op5volumeorig + lfo2value;  break;
-      case 6:  op6volume = op6volumeorig + lfo2value;  break;
-      case 7:  op1volume = op1volumeorig + lfo2value; op2volume = op2volumeorig + lfo2value;  break;
-      case 8:  op1volume = op1volumeorig + lfo2value; op2volume = op2volumeorig - lfo2value;  break;
-      case 9:  op1volume = op1volumeorig + lfo2value; op3volume = op3volumeorig + lfo2value;  break;
-      case 10: op1volume = op1volumeorig + lfo2value; op3volume = op3volumeorig - lfo2value;  break;
-      case 11: op1volume = op1volumeorig + lfo2value; op4volume = op4volumeorig + lfo2value;  break;
-      case 12: op1volume = op1volumeorig + lfo2value; op4volume = op4volumeorig - lfo2value;  break;
-      case 13: op1volume = op1volumeorig + lfo2value; op5volume = op5volumeorig + lfo2value;  break;
-      case 14: op1volume = op1volumeorig + lfo2value; op5volume = op5volumeorig + lfo2value;  break;
-      case 15: op1volume = op1volumeorig + lfo2value; op2volume = op2volumeorig + lfo2value; op3volume = op3volumeorig + lfo2value; break;
-      case 16: op1volume = op1volumeorig + lfo2value; op2volume = op2volumeorig - lfo2value; op3volume = op3volumeorig + lfo2value; break;
-      case 17: op2volume = op2volumeorig + lfo2value; op4volume = op4volumeorig + lfo2value; op6volume = op6volumeorig + lfo2value; break;
-      case 18: op2volume = op2volumeorig + lfo2value; op4volume = op4volumeorig - lfo2value; op6volume = op6volumeorig + lfo2value; break;
-      case 19: op2volume = op2volumeorig + lfo2value; op3volume = op3volumeorig + lfo2value; op5volume = op5volumeorig + lfo2value; break;
-      case 20: op2volume = op2volumeorig + lfo2value; op3volume = op3volumeorig - lfo2value; op5volume = op5volumeorig + lfo2value; break;
-      case 21: op1detune = (op1detunep << 12) + lfo2value; break;
-      case 22: op2generatorfreq = op2generatorfreqorig + lfo2value; break;
-      case 23: op3generatorfreq = op3generatorfreqorig + lfo2value; break;
-      case 24: op4generatorfreq = op4generatorfreqorig + lfo2value; break;
-      case 25: op5generatorfreq = op5generatorfreqorig + lfo2value; break;
-      case 26: op6generatorfreq = op6generatorfreqorig + lfo2value; break;
-      case 27: op1generatorfreq = op1generatorfreqorig + lfo2value; op2generatorfreq = op2generatorfreqorig + lfo2value; break;
-      case 28: op2generatorfreq = op2generatorfreqorig + lfo2value; op3generatorfreq = op3generatorfreqorig - lfo2value; break;
-      case 29: op3generatorfreq = op3generatorfreqorig + lfo2value; op5generatorfreq = op5generatorfreqorig + lfo2value; break;
-      case 30: op3generatorfreq = op3generatorfreqorig + lfo2value; op6generatorfreq = op6generatorfreqorig - lfo2value; break;
-      case 31: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; break;
-      case 32: op2generatorfreq = op2generatorfreqorig + lfo2value; op5generatorfreq = op5generatorfreqorig - lfo2value; break;
-      case 33: op1generatorfreq = op1generatorfreqorig + lfo2value; op4generatorfreq = op4generatorfreqorig + lfo2value; op3generatorfreq = op3generatorfreqorig + lfo2value; break;
-      case 34: f0 = f0orig + lfo2value;   eqkiszamol(); break;
-      case 35: f02 = f02orig + lfo2value;   eqkiszamol2(); break;
-      case 36: f0 = f0orig + lfo2value;   eqkiszamol();   eqkiszamol(); f02 = f02orig + lfo2value;   eqkiszamol2(); break;
+      case 1:  op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 2:  op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 3:  op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 4:  op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 5:  op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 6:  op6volume = op6volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 7:  op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 8:  op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig - ((lfo2value * lfo2volume) >> 10);  break;
+      case 9:  op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 10: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig - ((lfo2value * lfo2volume) >> 10);  break;
+      case 11: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 12: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig - ((lfo2value * lfo2volume) >> 10);  break;
+      case 13: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 14: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10);  break;
+      case 15: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10);; op3volume = op3volumeorig +((lfo2value * lfo2volume) >> 10); break;
+      case 16: op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10); op2volume = op2volumeorig - ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 17: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10); op6volume = op6volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 18: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op4volume = op4volumeorig - ((lfo2value * lfo2volume) >> 10); op6volume = op6volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 19: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig + ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 20: op2volume = op2volumeorig + ((lfo2value * lfo2volume) >> 10); op3volume = op3volumeorig - ((lfo2value * lfo2volume) >> 10); op5volume = op5volumeorig + ((lfo2value * lfo2volume) >> 10); break;
+      case 21: op1detune = (op1detunep << 12) + lfo2value * expgains128[lfo2volume] ; break;
+      case 22: op2detune = (op2detunep << 12) + lfo2value * expgains128[lfo2volume]; break;
+      case 23: op3detune = (op3detunep << 12) + lfo2value * expgains128[lfo2volume]; break;
+      case 24: op4detune = (op4detunep << 12) + lfo2value * expgains128[lfo2volume]; break;
+      case 25: op5detune = (op5detunep << 12) + lfo2value * expgains128[lfo2volume]; break;
+      case 26: op6detune = (op6detunep << 12) + lfo2value * expgains128[lfo2volume]; break;
+      case 27: op1detune = (op1detunep << 12) + lfo2value;  op2detune = (op2detunep << 12) + lfo2value; break;//1,2
+      case 28: op2detune = (op2detunep << 12) + lfo2value;  op3detune = (op3detunep << 12) + lfo2value; break;//2,3
+      case 29: op3detune = (op3detunep << 12) + lfo2value;  op5detune = (op5detunep << 12) + lfo2value;  break;//3,5
+      case 30: op3detune = (op3detunep << 12) + lfo2value;  op6detune = (op6detunep << 12) + lfo2value;  break;//3,6
+      case 31: op1detune = (op1detunep << 12) + lfo2value;  op5detune = (op5detunep << 12) + lfo2value; break; //1,5
+      case 32: op2detune = (op2detunep << 12) + lfo2value;  op6detune = (op6detunep << 12) + lfo2value;  break;//2,6
+      case 33: op1detune = (op1detunep << 12) + lfo2value;  op3detune = (op3detunep << 12) + lfo2value; op4detune = (op4detunep << 12) + lfo2value; break;//1,3,4
+      case 34: f0 = f0orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol(); break;
+      case 35: f02 = f02orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol2(); break;
+      case 36: f0 = f0orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol();   eqkiszamol(); f02 = f02orig + ((lfo2value * lfo2volume)>>1);   eqkiszamol2(); break;
+      case 37: f0 = f0orig + ((lfo2value * lfo2volume)>>1); op1volume = op1volumeorig + ((lfo2value * lfo2volume) >> 10);  eqkiszamol(); break;
+      case 38: f02 = f02orig + ((lfo2value * lfo2volume)>>1);   op4volume = op4volumeorig + ((lfo2value * lfo2volume) >> 10); eqkiszamol2(); break;
+      
         /*
           case 34: f0 = f0orig + (expgains128[lfo2value]>>1) ;   eqkiszamol(); break;
           case 35: f02 = f02orig + (expgains128[lfo2value]>>1);   eqkiszamol2(); break;

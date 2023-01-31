@@ -648,11 +648,13 @@ void loop() {
           //  op3volume = op3volumeorig + lfoarray[lfo2arrayindex >> 1] >> lfo2volume;
 
           if (lfo2delay > lfo2delaytime) {
-            lfo2tempvolume = lfo2volume;
-            lfo2value = lfoarray[lfo2arrayindex >> 23] * expgains128[lfo2tempvolume] ;
-            pichband();
+           // lfo2tempvolume = lfo2volume;
+            lfo2value = lfoarray[lfo2arrayindex >> 23];            
             lfo2arrayindex += lfo2freq << 22;
-          }
+          }else{
+              lfo2value=0;
+            }      
+          pichband();
           lfo2delay++;
 
           // lfo2value = (lfoarray[lfo2arrayindex >> 23] * lfo2tempvolume)>>10 ;

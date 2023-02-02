@@ -514,3 +514,36 @@ void generatortest() {
 void ptrnullaztest(byte generator) {
   Serial.println(generator);
 }
+
+/*wavetables
+const int SAMPLES = 1024;
+const int TABLE_SIZE = SAMPLES * 2;
+const int AMPLITUDE = 127;
+
+int wavetable[TABLE_SIZE];
+int freqpointer;
+int freq;
+int sampleRate = 44100;
+int sample;
+
+void setup() {
+  for (int i = 0; i < SAMPLES; i++) {
+    wavetable[i] = AMPLITUDE * sin(2 * PI * i / SAMPLES);
+    wavetable[i + SAMPLES] = wavetable[i];
+  }
+
+  Serial.begin(115200);
+}
+
+void loop() {
+  freq = 440;
+  freqpointer = 0;
+
+  for (int i = 0; i < sampleRate; i++) {
+    sample = wavetable[freqpointer >> 10];
+    freqpointer += freq;
+    freqpointer &= (TABLE_SIZE - 1);
+    Serial.write(sample);
+  }
+}
+*/

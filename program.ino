@@ -1155,7 +1155,7 @@ void program8() {
   proginit();
 }
 
-void program0() {
+void program10() {
 delaylowpasseqrighton=1;
 delaylowpasseqlefton=1;
 limiterlefton=0;
@@ -1297,7 +1297,7 @@ pachname = "P09:Balaton 01";
   proginit();
 }
 
-void program10() {
+void program0() {
   delaylowpasseqrighton = 1;
   delaylowpasseqlefton = 1;
   limiterlefton = 0;

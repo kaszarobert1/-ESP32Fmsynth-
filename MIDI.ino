@@ -574,17 +574,8 @@ void parameterchange2() {
       parameterstest();
       break;
     case 38:
-      //button play
-      // bufferindex = 0;
-      // szamlalo = 0;
-      //gorbetime[0] = -1;
-      // gorbetime[1] = -1;
-      //gorbetime[2] = -1;
-      //gorbetime[3] = -1;
-      // gorbetime[4] = -1;
-      // gorbetime[5] = -1;
-      //Audio.begin(mintavetelifreqstereo, buffermeret);
-      fagy = true;
+  
+     
       break;
     case 39:
       //button rec

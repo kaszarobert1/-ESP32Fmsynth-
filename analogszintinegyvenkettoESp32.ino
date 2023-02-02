@@ -339,13 +339,17 @@ byte mastertune = 64;
 byte pichvolume = 0;
 byte algorithm = 27;
 
+//timers
 unsigned long ido;
 unsigned long elozoido = 0;
 unsigned long elozoinit = 0;
+//midicommands
 byte commandByte;
 byte noteByte;
 byte velocityByte;
 byte oldnoteByte[8];
+
+
 #define FG_SIZE  1024
 #define FG_SIZE_I  FG_SIZE - 1
 
@@ -468,30 +472,9 @@ byte op3pich = 0;
 byte op4pich = 0;
 byte op5pich = 0;
 byte op6pich = 0;
-//nullátmenet
-bool signwaveop1 = false;
-bool signwaveop1last = false;
-uint16_t lastop1level[8];
 //lfo
 int szamlalo = 0;
 byte lcdfreq = 2;
-
-
-//bufferbe = y + delaybuffer[(delaybufferindex + lfo1volume) % reverbtime];
-#define yadddelay(bufferbe,delaybufferindex,lfovolume,reverbtime) (bufferbe + delaybuffer[(delaybufferindex + lfo1volume) % reverbtime])
-#define yadddelay2(bufferbe,delaybufferindex2,lfovolume,reverbtime2) (bufferbe + delaybuffer[(delaybufferindex2 + lfo1volume) % reverbtime2])
-// y = (freq1 * y + freq2 * bufferbe) >> 14;
-#define equalizer(y, freq1, freq2, bufferbe)((freq1 * y + freq2 * bufferbe)/10000)
-#define equalizer2(y2, freq1, freq2, bufferbe)((freq1 * y2 + freq2 * bufferbe)/10000)
-//(reverblevel2 - 1) * bufferbe / reverblevel2
-#define reverblevel1gain(reverblevel, bufferbe)((reverblevel - 1) * bufferbe / reverblevel)
-#define reverblevel2gain(reverblevel2, bufferbe)((reverblevel2 - 1) * bufferbe / reverblevel2)
-#define equqlizerdelay1(y3,freq1,freq2,elozodelaybufferindex) ((freq1 * y3 + freq2 * delaybuffer[elozodelaybufferindex])/11500)
-#define equqlizerdelay2(y4,freq1,freq2,elozodelaybufferindex2) ((freq1 * y4 + freq2 * delaybuffer[elozodelaybufferindex2])/11500)
-uint16_t op0gorbeteszt[GORBE_SIZE];
-uint16_t tesztmutato = 0;
-//1+2modulator
-bool fagy = true;
 byte op1lep = 22;
 byte op2lep = 22;
 byte op3lep = 22;
@@ -1723,23 +1706,6 @@ void ptrnullaz2(int generator) {
   }
 }
 
-/*
-  void korrekcio2() {
-  op1generatorfreqfix = op1generatorfreqfix * 40000;
-  op2generatorfreqfix = op2generatorfreqfix * 40000;
-  op3generatorfreqfix = op3generatorfreqfix * 40000;
-  op4generatorfreqfix = op4generatorfreqfix * 40000;
-  op5generatorfreqfix = op5generatorfreqfix * 40000;
-  op6generatorfreqfix = op6generatorfreqfix * 40000;
-  volume = volume * 9;
-  chorustime = chorustime * 26;
-  arpeggiotime = arpeggiotime * 5;
-  freq1 = freq1 * 100;
-  freq2 = freq2 * 100;
-  fixfreqstep = fixfreqstep * 40;
-  picheglevel = picheglevel * 200;
-  }
-*/
 //---------------------------TUNE----------------------------------
 
 float c = 5230;

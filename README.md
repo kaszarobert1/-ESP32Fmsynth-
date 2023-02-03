@@ -20,3 +20,6 @@ Abilities:
     Sound Memory: 16 user preset, and 8 in code
     (Bugs)
     (If we are bored, we can listen to internet radio on it.)
+
+-NodeMCU-ESP-32S, GY-PCM5102, 6N137, etc...
+-PC software: https://github.com/kaszarobert1/arduinoduemidisynthpcsoftware

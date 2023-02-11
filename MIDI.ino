@@ -590,6 +590,8 @@ void parameterchange2() {
       menukiir();
       break;
     case 41:
+    lfofreq[0] = value;
+    lfofreq[1] = value;
       chorusfreq = value;
       menuoldal = 35;
       menukiir();
@@ -602,6 +604,8 @@ void parameterchange2() {
       break;
     case 43:
       choruslevel = value;
+      chorusLevelLeft = value;
+      chorusLevelRight = value;
       //    chorusfreq =value;
       menuoldal = 34;
       menukiir();

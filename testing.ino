@@ -465,10 +465,10 @@ void wavetabletest() {
   wavetabledatatest(zajfg, "9 Noise");
 
   Serial.println("Wavetable 1-4:");
-  wavetabledatatest(wavetable1fg, "10 Wavetable1");
-  wavetabledatatest(wavetable2fg, "11 Wavetable2");
-  wavetabledatatest(wavetable3fg, "12 Wavetable3");
-  wavetabledatatest(wavetable4fg, "13 Wavetable4");
+//  wavetabledatatest(wavetable1fg, "10 Wavetable1");
+//  wavetabledatatest(wavetable2fg, "11 Wavetable2");
+//  wavetabledatatest(wavetable3fg, "12 Wavetable3");
+//  wavetabledatatest(wavetable4fg, "13 Wavetable4");
   Serial.println("Double and Tripla Sinus:");
   wavetabledatatest(duplafg, "14 Double");
   wavetabledatatest(triplafg, "15 Triple");

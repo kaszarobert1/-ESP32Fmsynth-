@@ -211,6 +211,37 @@ void limiter3() {
   }
 }
 
+//--------------------------CHORUS LEFT------------------------------
+
+
+int16_t chorusbufferleft[512];
+uint16_t chorusbufferindex = 0;
+uint16_t chorusindex;
+void chorusleft() {
+  chorusbufferleft[chorusbufferindex] = bufferbe;
+  chorusbufferindex++;
+  chorusbufferindex &= (chorusbuffersize);
+  chorusindex = (lfovalue[0] + chorusbufferindex) % chorusbuffersize;
+  bufferbe = (bufferbe + ((chorusbufferleft[chorusindex] * chorusLevelLeft) >> 7));
+}
+
+//--------------------------CHORUS RIGHT------------------------------
+
+int16_t chorusbufferright[512];
+uint16_t chorusbufferindex2 = 0;
+uint16_t chorusindex2;
+void chorusright() {
+  chorusbufferright[chorusbufferindex2] = bufferbe;
+  chorusbufferindex2++;
+  chorusbufferindex2 &= (chorusbuffersize2);
+
+
+  // Serial.println("chorusbufferindex2 : " + String(chorusbufferindex2 ));
+
+  chorusindex2 = (lfovalue[1] + chorusbufferindex2) % chorusbuffersize2;
+  bufferbe = (bufferbe + ((chorusbufferright[chorusindex2] * chorusLevelRight) >> 7));
+}
+
 
 /*
   void reverbold(){
